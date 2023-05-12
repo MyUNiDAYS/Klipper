@@ -1,0 +1,5 @@
+source 'https://cdn.cocoapods.org'
+use_modular_headers!
+target 'App-iOS' do
+    platform :ios, '13.0'
+end

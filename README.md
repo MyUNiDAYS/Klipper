@@ -2,7 +2,9 @@
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/MyUNiDAYS/template-kotlin-library?style=flat-square"> <a href="https://git.live"><img src="https://img.shields.io/badge/collaborate-on%20gitlive-blueviolet?style=flat-square"></a>
 </h1>
 
-The Template Kotlin Library SDK
+Kotlin + Flipper = Klipper
+
+Kotlin Multiplatform Flipper Support
 
 ## Installation
 
@@ -25,7 +27,7 @@ Add to the binary to your swift package like this:
 ```swift
         .binaryTarget(
             name: "project",
-            url: "https://github.com/MyUNiDAYS/template-kotlin-library/releases/download/0.0.1/0.0.1.zip",
+            url: "https://github.com/MyUNiDAYS/klipper/releases/download/0.0.1/0.0.1.zip",
             checksum: "8c35293a410f4ec5d150c4f5464f6b5cf04a1a15d1ae9c29126bb0b7a7dc2a54"
         ),
 ```
