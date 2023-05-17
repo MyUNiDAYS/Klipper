@@ -11,9 +11,10 @@ buildscript {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0-Beta-145")
         classpath("com.android.tools.build:gradle:7.0.4")
         classpath("org.jlleitschuh.gradle.ktlint:org.jlleitschuh.gradle.ktlint.gradle.plugin:11.0.0")
         classpath("io.gitlab.arturbosch.detekt:io.gitlab.arturbosch.detekt.gradle.plugin:1.22.0")
@@ -25,5 +26,6 @@ allprojects {
         google()
         mavenCentral()
         mavenLocal()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
     }
 }

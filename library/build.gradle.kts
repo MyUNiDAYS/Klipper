@@ -63,7 +63,11 @@ kotlin {
         ios.deploymentTarget = "10.0"
         noPodspec()
         framework { isStatic = true }
-        pod("FlipperKit")
+        pod("Flipper") {
+            source = git("https://github.com/Reedyuk/flipper.git") {
+                branch = "kmm"
+            }
+        }
     }
     sourceSets {
         val commonMain by getting
@@ -77,11 +81,11 @@ kotlin {
                 implementation("com.facebook.flipper:flipper:0.190.0")
             }
         }
-        val androidTest by getting {
-            dependencies {
-                implementation("junit:junit:4.13.2")
-            }
-        }
+//        val androidTest by getting {
+//            dependencies {
+//                implementation("junit:junit:4.13.2")
+//            }
+//        }
         val iosMain by getting
         val iosSimulatorArm64Main by getting
         iosSimulatorArm64Main.dependsOn(iosMain)
@@ -111,6 +115,29 @@ fun SigningExtension.whenRequired(block: () -> Boolean) {
 
 val javadocJar by tasks.creating(Jar::class) {
     archiveClassifier.value("javadoc")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.PodGenTask>().configureEach {
+    doLast {
+        podfile.get().writeText(
+            "source 'https://cdn.cocoapods.org'\n" +
+                    "target 'ios' do\n" +
+                    "\tplatform :ios, '10.0'\n" +
+                    "\tuse_modular_headers!\n" +
+                    "\tpod 'Flipper'\n" +
+                    "end\n" +
+                    "\n" +
+                    "post_install do |installer|\n" +
+                    "  installer.pods_project.targets.each do |target|\n" +
+                    "    target.build_configurations.each do |config|\n" +
+                    "      config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = \"\"\n" +
+                    "      config.build_settings['CODE_SIGNING_REQUIRED'] = \"NO\"\n" +
+                    "      config.build_settings['CODE_SIGNING_ALLOWED'] = \"NO\"\n" +
+                    "    end\n" +
+                    "  end\n" +
+                    "end\n"
+        )
+    }
 }
 
 publishing {
