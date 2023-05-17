@@ -63,7 +63,7 @@ kotlin {
         ios.deploymentTarget = "10.0"
         noPodspec()
         framework { isStatic = true }
-        pod("Flipper") {
+        pod("FlipperKit") {
             source = git("https://github.com/Reedyuk/flipper.git") {
                 branch = "kmm"
             }
@@ -124,7 +124,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.PodGenTask>().co
                     "target 'ios' do\n" +
                     "\tplatform :ios, '10.0'\n" +
                     "\tuse_modular_headers!\n" +
-                    "\tpod 'Flipper'\n" +
+                    "\tpod 'FlipperKit'\n" +
                     "end\n" +
                     "\n" +
                     "post_install do |installer|\n" +
