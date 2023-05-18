@@ -11,7 +11,6 @@ version = MODULE_VERSION_NUMBER
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("native.cocoapods")
     id("org.jlleitschuh.gradle.ktlint")
     id("io.gitlab.arturbosch.detekt")
     signing
@@ -59,12 +58,12 @@ kotlin {
             xcf.add(this)
         }
     }
-    cocoapods {
-        ios.deploymentTarget = "10.0"
-        noPodspec()
-        framework { isStatic = true }
-        pod("FlipperKit")
-    }
+//    cocoapods {
+//        ios.deploymentTarget = "10.0"
+//        noPodspec()
+//        framework { isStatic = true }
+//        pod("FlipperKit")
+//    }
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
@@ -74,7 +73,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.facebook.flipper:flipper:0.190.0")
+//                implementation("com.facebook.flipper:flipper:0.190.0")
             }
         }
         val androidTest by getting {
