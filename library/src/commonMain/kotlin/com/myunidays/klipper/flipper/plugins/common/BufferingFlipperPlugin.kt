@@ -1,39 +1,62 @@
 package com.myunidays.klipper.flipper.plugins.common
 
 import com.myunidays.klipper.flipper.core.FlipperConnection
+import com.myunidays.klipper.flipper.core.FlipperObject
 import com.myunidays.klipper.flipper.core.FlipperPlugin
 
-class BufferingFlipperPlugin: FlipperPlugin {
-    private var mEventQueue: RingBuffer<CachedFlipperEvent>? = null
+abstract class BufferingFlipperPlugin: FlipperPlugin {
+//    private var mEventQueue: RingBuffer<CachedFlipperEvent>? = null
+    private var mEventQueue: MutableList<CachedFlipperEvent> = mutableListOf()
     private var mConnection: FlipperConnection? = null
-    private var mMockResponseConnectionListenerConnectionListener: MockResponseConnectionListener = null
+    private var mMockResponseConnectionListenerConnectionListener: MockResponseConnectionListener? = null
 
     fun setConnectionListener(listener: MockResponseConnectionListener) {
         this.mMockResponseConnectionListenerConnectionListener = listener
     }
+    fun removeConnectionListener() {
+        this.mMockResponseConnectionListenerConnectionListener = null
+    }
+    fun getConnection() : FlipperConnection? = mConnection
+    fun isConnected() = mConnection != null
 
-  fun removeConnectionListener() {
-    this.mMockResponseConnectionListenerConnectionListener = null
-  }
-
-    override fun getId(): String {
-        TODO("Not yet implemented")
+    private fun sendBufferedEvents() {
+        mEventQueue.forEach { event ->
+            mConnection?.send(event.method, event.flipperObject)
+        }
+        mEventQueue.clear()
     }
 
     override fun onConnect(connection: FlipperConnection) {
-        TODO("Not yet implemented")
+        mConnection = connection
+
+        sendBufferedEvents()
+
+        if (mMockResponseConnectionListenerConnectionListener != null) {
+            mMockResponseConnectionListenerConnectionListener!!.onConnect(connection)
+        }
     }
 
     override fun onDisconnect() {
-        TODO("Not yet implemented")
+        mConnection = null
+        if (mMockResponseConnectionListenerConnectionListener != null) {
+            mMockResponseConnectionListenerConnectionListener!!.onDisconnect()
+        }
     }
 
-    override fun runInBackground(): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun runInBackground(): Boolean = true
 
     companion object {
         const val BUFFER_SIZE: Int = 500
+    }
+
+    data class CachedFlipperEvent(
+        val method: String,
+        val flipperObject: FlipperObject
+    )
+
+    interface MockResponseConnectionListener {
+        fun onConnect(connection: FlipperConnection)
+        fun onDisconnect()
     }
 }
 
