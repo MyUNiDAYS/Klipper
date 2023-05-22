@@ -46,23 +46,15 @@ kotlin {
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
     }
-    val xcf = XCFramework(MODULE_NAME)
-    ios {
-        binaries.framework {
-            baseName = MODULE_NAME
-            xcf.add(this)
-        }
-    }
-    iosSimulatorArm64 {
-        binaries.framework {
-            baseName = MODULE_NAME
-            xcf.add(this)
-        }
-    }
+    ios()
+    iosSimulatorArm64()
     cocoapods {
         ios.deploymentTarget = "10.0"
         noPodspec()
-        framework { isStatic = true }
+        framework {
+            isStatic = true
+            baseName = MODULE_NAME
+        }
         pod("FlipperKit") {
             source = git("https://github.com/Reedyuk/flipper.git") {
                 branch = "kmm"
