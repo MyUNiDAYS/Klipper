@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0DFA9FEE0D804B51362FCF4C /* libPods-Klipper-Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD66F060BC2709AB5F032567 /* libPods-Klipper-Example.a */; };
 		492134B02A1BD0F700D65EFC /* Klipper_ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492134AF2A1BD0F700D65EFC /* Klipper_ExampleApp.swift */; };
 		492134B22A1BD0F700D65EFC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492134B12A1BD0F700D65EFC /* ContentView.swift */; };
 		492134B42A1BD0F800D65EFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 492134B32A1BD0F800D65EFC /* Assets.xcassets */; };
@@ -15,6 +14,7 @@
 		492134C32A1BD44900D65EFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492134C22A1BD44900D65EFC /* AppDelegate.swift */; };
 		49FEE6E32A1BD99B0005CEC0 /* Klipper.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FEE6E22A1BD99B0005CEC0 /* Klipper.xcframework */; };
 		49FEE6E42A1BD99B0005CEC0 /* Klipper.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49FEE6E22A1BD99B0005CEC0 /* Klipper.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		73EA59652EB62B05FBE73ABA /* Pods_Klipper_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14887598BDFB1E744EBFE700 /* Pods_Klipper_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		062E16314F101395F375D077 /* Pods-Klipper-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Klipper-Example.debug.xcconfig"; path = "Target Support Files/Pods-Klipper-Example/Pods-Klipper-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		14887598BDFB1E744EBFE700 /* Pods_Klipper_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Klipper_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		492134AC2A1BD0F700D65EFC /* Klipper-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Klipper-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		492134AF2A1BD0F700D65EFC /* Klipper_ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Klipper_ExampleApp.swift; sourceTree = "<group>"; };
 		492134B12A1BD0F700D65EFC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -41,7 +42,6 @@
 		492134C22A1BD44900D65EFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49FEE6E22A1BD99B0005CEC0 /* Klipper.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Klipper.xcframework; path = ../../../library/swiftpackage/Klipper.xcframework; sourceTree = "<group>"; };
 		7ADE56942988B3F0B0BE8703 /* Pods-Klipper-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Klipper-Example.release.xcconfig"; path = "Target Support Files/Pods-Klipper-Example/Pods-Klipper-Example.release.xcconfig"; sourceTree = "<group>"; };
-		DD66F060BC2709AB5F032567 /* libPods-Klipper-Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Klipper-Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,8 +49,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0DFA9FEE0D804B51362FCF4C /* libPods-Klipper-Example.a in Frameworks */,
 				49FEE6E32A1BD99B0005CEC0 /* Klipper.xcframework in Frameworks */,
+				73EA59652EB62B05FBE73ABA /* Pods_Klipper_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				49FEE6E22A1BD99B0005CEC0 /* Klipper.xcframework */,
-				DD66F060BC2709AB5F032567 /* libPods-Klipper-Example.a */,
+				14887598BDFB1E744EBFE700 /* Pods_Klipper_Example.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -361,7 +361,38 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Klipper-Example/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaAsyncSocket\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-Boost-iOSX\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-Fmt\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-Folly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-PeerTalk\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FlipperKit\"/**",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SocketRocket\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/libevent\"",
+					"\"${PODS_ROOT}/Flipper-DoubleConversion/Frameworks\"",
+					"\"${PODS_ROOT}/Flipper-Glog/Frameworks\"",
+					"\"${PODS_ROOT}/OpenSSL-Universal/Frameworks\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-Glog\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal\"",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-Boost-iOSX/boost.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-Fmt/fmt.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-Folly/folly.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-PeerTalk/peertalk.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper/Flipper.framework/Headers\"/**",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FlipperKit/FlipperKit.framework/Headers\"/**",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SocketRocket/SocketRocket.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/libevent/libevent.framework/Headers\"",
+					"\"$(PODS_TARGET_SRCROOT)/include/\"",
+				);
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

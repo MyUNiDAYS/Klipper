@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import klipper
+import FlipperKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(
@@ -16,6 +17,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     ) -> Bool {
         let flipperClient = FlipperClientKt.sharedClient()
         flipperClient.start()
+        
+        //flipperClient.addPlugin(plugin: FlipperKitNetworkPlugin(networkAdapter: SKIOSNetworkAdapter()))
         
         return true
     }

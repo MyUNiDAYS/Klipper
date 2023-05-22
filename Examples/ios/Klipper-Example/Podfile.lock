@@ -31,12 +31,18 @@ PODS:
   - FlipperKit/FKPortForwarding (0.189.0):
     - CocoaAsyncSocket (~> 7.6)
     - Flipper-PeerTalk (~> 0.0.4)
+  - FlipperKit/FlipperKitNetworkPlugin (0.189.0):
+    - FlipperKit/Core
+  - FlipperKit/SKIOSNetworkPlugin (0.189.0):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitNetworkPlugin
   - libevent (2.1.12)
   - OpenSSL-Universal (1.1.1100)
   - SocketRocket (0.6.0)
 
 DEPENDENCIES:
   - FlipperKit (~> 0.189.0)
+  - FlipperKit/SKIOSNetworkPlugin (~> 0.189.0)
 
 SPEC REPOS:
   trunk:
@@ -67,6 +73,6 @@ SPEC CHECKSUMS:
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
 
-PODFILE CHECKSUM: 609315d32e1ccfbefdfb6204abe77cf167030ee6
+PODFILE CHECKSUM: 5b04d5c1720802e193368cd83d2a1a422fab4461
 
 COCOAPODS: 1.12.1
