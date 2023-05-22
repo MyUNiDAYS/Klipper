@@ -14,6 +14,7 @@ plugins {
     kotlin("native.cocoapods")
     id("org.jlleitschuh.gradle.ktlint")
     id("io.gitlab.arturbosch.detekt")
+    id("io.github.luca992.multiplatform-swiftpackage") version "2.1.1"
     signing
     `maven-publish`
 }
@@ -196,4 +197,12 @@ signing {
     val signingPassword: String? by project
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications)
+}
+
+multiplatformSwiftPackage {
+    packageName("Klipper")
+    swiftToolsVersion("5.5")
+    targetPlatforms {
+        iOS { v("16.4") }
+    }
 }
