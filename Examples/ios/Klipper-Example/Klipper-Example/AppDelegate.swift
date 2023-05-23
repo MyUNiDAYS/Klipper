@@ -17,9 +17,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     ) -> Bool {
         let flipperClient = FlipperClientKt.sharedClient()
         flipperClient.start()
-        
-        //flipperClient.addPlugin(plugin: FlipperKitNetworkPlugin(networkAdapter: SKIOSNetworkAdapter()))
-        
+        flipperClient.addPlugin(plugin: FlipperKitNetworkPlugin(networkAdapter: SKIOSNetworkAdapter()))
+        flipperClient.addPlugin(plugin: FKUserDefaultsPlugin(suiteName: "your_suitename"))
         return true
     }
 }
