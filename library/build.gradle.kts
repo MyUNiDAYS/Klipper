@@ -63,13 +63,13 @@ kotlin {
             headers = "FlipperDiagnosticsViewController.h FlipperStateUpdateListener.h FlipperClient.h FlipperPlugin.h FlipperConnection.h FlipperResponder.h SKMacros.h FlipperKitCertificateProvider.h"
             extraOpts = listOf("-compiler-option", "-DFB_SONARKIT_ENABLED=1")
         }
-//        pod("FlipperKit") {
-//            moduleName = "SKIOSNetworkPlugin"
-//            source = git("https://github.com/Reedyuk/flipper.git") {
-//                branch = "kmm"
-//            }
-//            extraOpts = listOf("-compiler-option", "-DFB_SONARKIT_ENABLED=1")
-//        }
+        pod("FlipperKit/SKIOSNetworkPlugin") {
+            source = git("https://github.com/Reedyuk/flipper.git") {
+                branch = "kmm"
+            }
+            headers = "SKIOSNetworkAdapter.h"
+            extraOpts = listOf("-compiler-option", "-DFB_SONARKIT_ENABLED=1")
+        }
     }
     sourceSets {
         val commonMain by getting
