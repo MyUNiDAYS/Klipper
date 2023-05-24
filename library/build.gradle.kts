@@ -57,17 +57,11 @@ kotlin {
             baseName = MODULE_NAME
         }
         pod("FlipperKit") {
-            source = git("https://github.com/Reedyuk/flipper.git") {
-                branch = "kmm"
-            }
             headers = "FlipperDiagnosticsViewController.h FlipperStateUpdateListener.h FlipperClient.h FlipperPlugin.h FlipperConnection.h FlipperResponder.h SKMacros.h FlipperKitCertificateProvider.h"
             extraOpts = listOf("-compiler-option", "-DFB_SONARKIT_ENABLED=1")
         }
         pod("FlipperKit/SKIOSNetworkPlugin") {
-            source = git("https://github.com/Reedyuk/flipper.git") {
-                branch = "kmm"
-            }
-            headers = "SKIOSNetworkAdapter.h"
+            headers = "SKIOSNetworkAdapter.h FlipperKitNetworkPlugin.h"
             extraOpts = listOf("-compiler-option", "-DFB_SONARKIT_ENABLED=1")
         }
     }
@@ -122,24 +116,26 @@ val javadocJar by tasks.creating(Jar::class) {
 
 tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.PodGenTask>().configureEach {
     doLast {
-        podfile.get().writeText(
-            "source 'https://cdn.cocoapods.org'\n" +
-                    "target 'ios' do\n" +
-                    "\tplatform :ios, '10.0'\n" +
-                    "\tuse_modular_headers!\n" +
-                    "\tpod 'FlipperKit'\n" +
-                    "end\n" +
-                    "\n" +
-                    "post_install do |installer|\n" +
-                    "  installer.pods_project.targets.each do |target|\n" +
-                    "    target.build_configurations.each do |config|\n" +
-                    "      config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = \"\"\n" +
-                    "      config.build_settings['CODE_SIGNING_REQUIRED'] = \"NO\"\n" +
-                    "      config.build_settings['CODE_SIGNING_ALLOWED'] = \"NO\"\n" +
-                    "    end\n" +
-                    "  end\n" +
-                    "end\n"
-        )
+        podfile.get().apply { writeText(readText().replace("use_frameworks!", "use_modular_headers!")) }
+//        podfile.get().writeText(
+//            "source 'https://cdn.cocoapods.org'\n" +
+//                    "target 'ios' do\n" +
+//                    "\tplatform :ios, '10.0'\n" +
+//                    "\tuse_modular_headers!\n" +
+//                    "\tpod 'FlipperKit'\n" +
+//                    "\tpod 'FlipperKit/SKIOSNetworkPlugin'\n" +
+//                    "end\n" +
+//                    "\n" +
+//                    "post_install do |installer|\n" +
+//                    "  installer.pods_project.targets.each do |target|\n" +
+//                    "    target.build_configurations.each do |config|\n" +
+//                    "      config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = \"\"\n" +
+//                    "      config.build_settings['CODE_SIGNING_REQUIRED'] = \"NO\"\n" +
+//                    "      config.build_settings['CODE_SIGNING_ALLOWED'] = \"NO\"\n" +
+//                    "    end\n" +
+//                    "  end\n" +
+//                    "end\n"
+//        )
     }
 }
 
