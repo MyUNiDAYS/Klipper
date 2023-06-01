@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+
 
 val MODULE_PACKAGE_NAME: String by project
 val MODULE_NAME: String by project

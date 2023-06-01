@@ -19,4 +19,3 @@ actual class FlipperClient internal constructor(val ios: cocoapods.FlipperKit.Fl
         fun sharedClient(): FlipperClient = getInstance(null)
     }
 }
-

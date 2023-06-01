@@ -11,5 +11,4 @@ internal class FlipperPluginImpl internal constructor(private val ios: FlipperPl
     override fun didDisconnect() = ios.didDisconnect()
 
     override fun identifier(): String? = ios.identifier()
-
 }

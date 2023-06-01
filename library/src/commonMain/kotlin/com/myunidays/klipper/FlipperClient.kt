@@ -1,11 +1,10 @@
 package com.myunidays.klipper
 
-
 expect class FlipperClient {
 
     fun addPlugin(plugin: FlipperPlugin)
-    fun getPlugin(id: String) : FlipperPlugin?
-////    fun getPluginByClass()
+    fun getPlugin(id: String): FlipperPlugin?
+//    fun getPluginByClass()
 //    fun removePlugin(plugin: FlipperPlugin)
     fun start()
     fun stop()
@@ -15,6 +14,6 @@ expect class FlipperClient {
 //    fun getStateSummary(): StateSummary
 
     companion object {
-        fun getInstance(context: Any? = null) : FlipperClient
+        fun getInstance(context: Any? = null): FlipperClient
     }
 }
