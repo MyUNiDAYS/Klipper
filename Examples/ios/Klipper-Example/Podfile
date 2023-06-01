@@ -1,0 +1,45 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '16.4'
+flipperkit_version = '0.189.0'
+
+target 'Klipper-Example' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks! :linkage => :static
+
+  # Pods for Klipper-Example
+  pod 'FlipperKit', '~>' + flipperkit_version, :configuration => 'Debug'
+#  pod 'FlipperKit/FlipperKitLayoutComponentKitSupport', '~>' + flipperkit_version, :configuration => 'Debug'
+  pod 'FlipperKit/SKIOSNetworkPlugin', '~>' + flipperkit_version, :configuration => 'Debug'
+  pod 'FlipperKit/FlipperKitUserDefaultsPlugin', '~>' + flipperkit_version, :configuration => 'Debug'
+  # ...unfortunately at this time that means you'll need to explicitly mark
+  # transitive dependencies as being for debug build only as well:
+  pod 'Flipper-DoubleConversion', :configuration => 'Debug'
+  pod 'Flipper-Folly', :configuration => 'Debug'
+  pod 'Flipper-Glog', :configuration => 'Debug'
+  pod 'Flipper-PeerTalk', :configuration => 'Debug'
+  pod 'CocoaLibEvent', :configuration => 'Debug'
+  pod 'boost-for-react-native', :configuration => 'Debug'
+  pod 'OpenSSL-Universal', :configuration => 'Debug'
+  pod 'CocoaAsyncSocket', :configuration => 'Debug'
+
+ $static_framework = ['FlipperKit', 'Flipper', 'Flipper-Folly',
+     'CocoaAsyncSocket', 'Flipper-DoubleConversion',
+     'Flipper-Glog', 'Flipper-PeerTalk', 'Flipper-RSocket',
+     'CocoaLibEvent', 'OpenSSL-Universal', 'boost-for-react-native', 'Flipper-Fmt']
+ pre_install do |installer|
+   Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+   installer.pod_targets.each do |pod|
+       if $static_framework.include?(pod.name)
+         def pod.build_type;
+           Pod::BuildType.static_library
+         end
+       end
+     end
+ end
+
+  post_install do |installer|
+    installer.pods_project.build_configurations.each do |config|
+      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+    end
+  end
+end

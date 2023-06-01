@@ -1,0 +1,3 @@
+package com.myunidays.klipper.plugins.sharedpreferences
+
+expect class SharedPreferencesFlipperPlugin

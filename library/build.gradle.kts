@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+
 
 val MODULE_PACKAGE_NAME: String by project
 val MODULE_NAME: String by project
@@ -14,6 +14,7 @@ plugins {
     kotlin("native.cocoapods")
     id("org.jlleitschuh.gradle.ktlint")
     id("io.gitlab.arturbosch.detekt")
+    id("io.github.luca992.multiplatform-swiftpackage") version "2.1.1"
     signing
     `maven-publish`
 }
@@ -46,24 +47,21 @@ kotlin {
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
     }
-    val xcf = XCFramework(MODULE_NAME)
-    ios {
-        binaries.framework {
-            baseName = MODULE_NAME
-            xcf.add(this)
-        }
-    }
-    iosSimulatorArm64 {
-        binaries.framework {
-            baseName = MODULE_NAME
-            xcf.add(this)
-        }
-    }
+    ios()
+    iosSimulatorArm64()
     cocoapods {
         ios.deploymentTarget = "10.0"
         noPodspec()
-        framework { isStatic = true }
-        pod("FlipperKit")
+        framework {
+            isStatic = true
+            baseName = MODULE_NAME
+        }
+        pod("FlipperKit") {
+            headers = "FlipperDiagnosticsViewController.h FlipperStateUpdateListener.h FlipperClient.h FlipperPlugin.h FlipperConnection.h FlipperResponder.h SKMacros.h FlipperKitCertificateProvider.h SKIOSNetworkPlugin/SKIOSNetworkAdapter.h FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h"
+            extraOpts = listOf("-compiler-option", "-DFB_SONARKIT_ENABLED=1")
+        }
+        pod("FlipperKit/SKIOSNetworkPlugin")
+        pod("FlipperKit/FlipperKitUserDefaultsPlugin")
     }
     sourceSets {
         val commonMain by getting
@@ -75,13 +73,14 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("com.facebook.flipper:flipper:0.190.0")
+                implementation("com.facebook.flipper:flipper-network-plugin:0.190.0")
             }
         }
-        val androidTest by getting {
-            dependencies {
-                implementation("junit:junit:4.13.2")
-            }
-        }
+//        val androidTest by getting {
+//            dependencies {
+//                implementation("junit:junit:4.13.2")
+//            }
+//        }
         val iosMain by getting
         val iosSimulatorArm64Main by getting
         iosSimulatorArm64Main.dependsOn(iosMain)
@@ -111,6 +110,31 @@ fun SigningExtension.whenRequired(block: () -> Boolean) {
 
 val javadocJar by tasks.creating(Jar::class) {
     archiveClassifier.value("javadoc")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.PodGenTask>().configureEach {
+    doLast {
+        podfile.get().apply { writeText(readText().replace("use_frameworks!", "use_modular_headers!")) }
+//        podfile.get().writeText(
+//            "source 'https://cdn.cocoapods.org'\n" +
+//                    "target 'ios' do\n" +
+//                    "\tplatform :ios, '10.0'\n" +
+//                    "\tuse_modular_headers!\n" +
+//                    "\tpod 'FlipperKit'\n" +
+//                    "\tpod 'FlipperKit/SKIOSNetworkPlugin'\n" +
+//                    "end\n" +
+//                    "\n" +
+//                    "post_install do |installer|\n" +
+//                    "  installer.pods_project.targets.each do |target|\n" +
+//                    "    target.build_configurations.each do |config|\n" +
+//                    "      config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = \"\"\n" +
+//                    "      config.build_settings['CODE_SIGNING_REQUIRED'] = \"NO\"\n" +
+//                    "      config.build_settings['CODE_SIGNING_ALLOWED'] = \"NO\"\n" +
+//                    "    end\n" +
+//                    "  end\n" +
+//                    "end\n"
+//        )
+    }
 }
 
 publishing {
@@ -175,4 +199,12 @@ signing {
     val signingPassword: String? by project
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications)
+}
+
+multiplatformSwiftPackage {
+    packageName("Klipper")
+    swiftToolsVersion("5.5")
+    targetPlatforms {
+        iOS { v("16.4") }
+    }
 }
