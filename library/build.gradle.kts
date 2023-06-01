@@ -57,13 +57,10 @@ kotlin {
             baseName = MODULE_NAME
         }
         pod("FlipperKit") {
-            headers = "FlipperDiagnosticsViewController.h FlipperStateUpdateListener.h FlipperClient.h FlipperPlugin.h FlipperConnection.h FlipperResponder.h SKMacros.h FlipperKitCertificateProvider.h"
+            headers = "FlipperDiagnosticsViewController.h FlipperStateUpdateListener.h FlipperClient.h FlipperPlugin.h FlipperConnection.h FlipperResponder.h SKMacros.h FlipperKitCertificateProvider.h SKIOSNetworkPlugin/SKIOSNetworkAdapter.h FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h"
             extraOpts = listOf("-compiler-option", "-DFB_SONARKIT_ENABLED=1")
         }
-        pod("FlipperKit/SKIOSNetworkPlugin") {
-            headers = "SKIOSNetworkAdapter.h FlipperKitNetworkPlugin.h"
-            extraOpts = listOf("-compiler-option", "-DFB_SONARKIT_ENABLED=1")
-        }
+        pod("FlipperKit/SKIOSNetworkPlugin")
     }
     sourceSets {
         val commonMain by getting
