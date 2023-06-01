@@ -21,5 +21,4 @@ actual class SharedPreferencesFlipperPlugin(
 
     override fun runInBackground(): Boolean =
         android.runInBackground()
-
 }
