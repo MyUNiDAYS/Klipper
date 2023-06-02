@@ -1,5 +1,11 @@
 package com.myunidays.library
 
+import platform.Foundation.NSUserDefaults
+
+actual fun saveData(data: String) {
+    NSUserDefaults.standardUserDefaults.setObject(data, "fact")
+}
+
 //import com.myunidays.klipper.plugins.network.NetworkFlipperPlugin
 //
 //actual fun initialiseKlipper() {

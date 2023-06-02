@@ -4,6 +4,8 @@ import android.content.Context
 import com.facebook.flipper.core.FlipperConnection
 import com.myunidays.klipper.FlipperPlugin
 
+actual fun createSharedPreferencesPlugin(context: Any?) : SharedPreferencesFlipperPlugin = SharedPreferencesFlipperPlugin(context as Context, "")
+
 actual class SharedPreferencesFlipperPlugin(
     context: Context,
     name: String

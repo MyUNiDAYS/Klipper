@@ -7,16 +7,19 @@
 
 import SwiftUI
 import Foundation
+import klipper
+import FlipperKit
+
 
 struct Fact : Codable {
     let fact: String
     let length: Int
 }
 
-struct ContentView: View {
+struct NativeView: View {
     
     let userDefaults: UserDefaults = UserDefaults.init(suiteName: "klipper_example")!
-    
+        
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -34,12 +37,7 @@ struct ContentView: View {
                     if response.statusCode == 200 {
                         guard let data = data else { return }
                         DispatchQueue.main.async {
-                            do {
-                                let decodedFact = try JSONDecoder().decode(Fact.self, from: data)
-                                userDefaults.set(data.prettyPrintedJSONString, forKey: "fact")
-                            } catch let error {
-                                print("Error decoding: ", error)
-                            }
+                            userDefaults.set(data.prettyPrintedJSONString, forKey: "fact")
                         }
                     }
                 }
@@ -49,13 +47,20 @@ struct ContentView: View {
                 Text("Make network request!")
             })
 
+        }.onAppear {
+            let flipperClient = FlipperClientKt.sharedClient()
+            flipperClient.start()
+            let network = NetworkFlipperPluginKt.doInitWithNetworkAdapter(networkAdapter: SKNetworkAdapterKt.create())
+            flipperClient.addPlugin(plugin: network as! FlipperPlugin)
+            let userDefaults = FKUserDefaultsPluginKt.doInitWithName(name: "klipper_example")
+            flipperClient.addPlugin(plugin: userDefaults as! FlipperPlugin)
         }
         .padding()
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct NativeView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        NativeView()
     }
 }
