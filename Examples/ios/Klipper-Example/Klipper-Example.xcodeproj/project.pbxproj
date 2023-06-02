@@ -12,6 +12,7 @@
 		492134B42A1BD0F800D65EFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 492134B32A1BD0F800D65EFC /* Assets.xcassets */; };
 		492134B72A1BD0F800D65EFC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 492134B62A1BD0F800D65EFC /* Preview Assets.xcassets */; };
 		492134C32A1BD44900D65EFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492134C22A1BD44900D65EFC /* AppDelegate.swift */; };
+		4942D5CC2A2A1B2200E69CD8 /* Data+Pretty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4942D5CB2A2A1B2200E69CD8 /* Data+Pretty.swift */; };
 		49FEE6E32A1BD99B0005CEC0 /* Klipper.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FEE6E22A1BD99B0005CEC0 /* Klipper.xcframework */; };
 		49FEE6E42A1BD99B0005CEC0 /* Klipper.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 49FEE6E22A1BD99B0005CEC0 /* Klipper.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73EA59652EB62B05FBE73ABA /* Pods_Klipper_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14887598BDFB1E744EBFE700 /* Pods_Klipper_Example.framework */; };
@@ -40,6 +41,7 @@
 		492134B32A1BD0F800D65EFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		492134B62A1BD0F800D65EFC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		492134C22A1BD44900D65EFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4942D5CB2A2A1B2200E69CD8 /* Data+Pretty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Pretty.swift"; sourceTree = "<group>"; };
 		49FEE6E22A1BD99B0005CEC0 /* Klipper.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Klipper.xcframework; path = ../../../library/swiftpackage/Klipper.xcframework; sourceTree = "<group>"; };
 		7ADE56942988B3F0B0BE8703 /* Pods-Klipper-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Klipper-Example.release.xcconfig"; path = "Target Support Files/Pods-Klipper-Example/Pods-Klipper-Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,6 +85,7 @@
 				492134B32A1BD0F800D65EFC /* Assets.xcassets */,
 				492134B52A1BD0F800D65EFC /* Preview Content */,
 				492134C22A1BD44900D65EFC /* AppDelegate.swift */,
+				4942D5CB2A2A1B2200E69CD8 /* Data+Pretty.swift */,
 			);
 			path = "Klipper-Example";
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				492134C32A1BD44900D65EFC /* AppDelegate.swift in Sources */,
+				4942D5CC2A2A1B2200E69CD8 /* Data+Pretty.swift in Sources */,
 				492134B22A1BD0F700D65EFC /* ContentView.swift in Sources */,
 				492134B02A1BD0F700D65EFC /* Klipper_ExampleApp.swift in Sources */,
 			);

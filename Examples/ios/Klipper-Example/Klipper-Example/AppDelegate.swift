@@ -19,7 +19,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         flipperClient.start()
         let network = NetworkFlipperPluginKt.doInitWithNetworkAdapter(networkAdapter: SKNetworkAdapterKt.create())
         flipperClient.addPlugin(plugin: network as! FlipperPlugin)
-        let userDefaults = FKUserDefaultsPluginKt.doInitWithName(name: "your_suitename")
+        let userDefaults = FKUserDefaultsPluginKt.doInitWithName(name: "klipper_example")
         flipperClient.addPlugin(plugin: userDefaults as! FlipperPlugin)
         
         return true

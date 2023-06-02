@@ -18,3 +18,5 @@ actual class NetworkFlipperPlugin : FlipperPlugin {
 
     override fun runInBackground(): Boolean = android.runInBackground()
 }
+
+actual fun createNetworkFlipperPlugin() = NetworkFlipperPlugin()

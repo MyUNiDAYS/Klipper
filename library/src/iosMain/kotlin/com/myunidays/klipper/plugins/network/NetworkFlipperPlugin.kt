@@ -21,4 +21,10 @@ actual class NetworkFlipperPlugin internal constructor(val ios: cocoapods.Flippe
     }
 
     override fun identifier(): String? = ios.identifier()
+
+    companion object {
+        fun init(networkAdapter: SKNetworkAdapter) = initWithNetworkAdapter(networkAdapter)
+    }
 }
+
+actual fun createNetworkFlipperPlugin() = NetworkFlipperPlugin.init(SKNetworkAdapter())
