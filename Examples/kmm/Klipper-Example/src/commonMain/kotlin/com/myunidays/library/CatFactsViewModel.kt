@@ -11,9 +11,8 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.JsonObject
 
-expect fun saveData(data: String)
+expect fun saveData(context: Any? = null, data: String)
 
 class CatFactsViewModel {
 
@@ -24,7 +23,7 @@ class CatFactsViewModel {
         flipperClient.addPlugin(createUserDefaultsPlugin(null) as FlipperPlugin)
     }
 
-    fun makeNetworkRequest() {
+    fun makeNetworkRequest(context: Any? = null) {
         val client = HttpClient() {
             install(ContentNegotiation) { json() }
             expectSuccess = true
@@ -36,7 +35,7 @@ class CatFactsViewModel {
         }
         kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Default).launch {
             val response = client.get("https://catfact.ninja/fact")
-            com.myunidays.library.saveData(response.body())
+            saveData(context, response.body())
         }
 
     }

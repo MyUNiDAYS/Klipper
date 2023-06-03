@@ -1,8 +1,7 @@
 package com.myunidays.library
 
-actual fun saveData(data: String) {
-    
+import com.myunidays.klipper.plugins.sharedpreferences.createSharedPreferencesPlugin
+
+actual fun saveData(context: Any?, data: String) {
+    createSharedPreferencesPlugin(context)
 }
-//actual fun initialiseKlipper() {
-//
-//}

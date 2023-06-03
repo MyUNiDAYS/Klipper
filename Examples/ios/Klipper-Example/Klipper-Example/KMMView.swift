@@ -18,7 +18,7 @@ struct KMMView: View {
                 .foregroundColor(.accentColor)
             Button(action: {
                 let viewModel = CatFactsViewModel()
-                viewModel.makeNetworkRequest()
+                viewModel.makeNetworkRequest(context: nil)
             }, label: {
                 Text("Make network request!")
             })

@@ -2,7 +2,7 @@ package com.myunidays.library
 
 import platform.Foundation.NSUserDefaults
 
-actual fun saveData(data: String) {
+actual fun saveData(context: Any?, data: String) {
     NSUserDefaults.standardUserDefaults.setObject(data, "fact")
 }
 
