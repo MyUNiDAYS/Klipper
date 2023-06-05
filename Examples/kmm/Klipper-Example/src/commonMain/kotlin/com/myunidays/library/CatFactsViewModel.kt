@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
 
 expect fun saveData(context: Any? = null, data: String)
 
-class CatFactsViewModel {
+class CatFactsViewModel(context: Any? = null) {
 
     init {
-        val flipperClient = FlipperClient.getInstance(null)
+        val flipperClient = FlipperClient.getInstance(context)
         flipperClient.start()
         flipperClient.addPlugin(createNetworkFlipperPlugin() as FlipperPlugin)
-        flipperClient.addPlugin(createUserDefaultsPlugin(null) as FlipperPlugin)
+        flipperClient.addPlugin(createUserDefaultsPlugin(context, "default") as FlipperPlugin)
     }
 
     fun makeNetworkRequest(context: Any? = null) {

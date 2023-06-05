@@ -1,8 +1,9 @@
 plugins {
     kotlin("multiplatform") version "1.9.0-Beta-145"
-    id("com.android.application")
+    id("com.android.library")
     id("io.github.luca992.multiplatform-swiftpackage") version "2.1.1"
     kotlin("native.cocoapods") version "1.9.0-Beta-145"
+    `maven-publish`
 }
 
 group = "com.myunidays"
@@ -19,7 +20,10 @@ repositories {
 }
 
 kotlin {
-    android()
+    androidTarget {
+        publishAllLibraryVariants()
+        publishLibraryVariantsGroupedByFlavor = true
+    }
     ios()
     iosSimulatorArm64()
     cocoapods {
@@ -64,11 +68,8 @@ android {
     compileSdk = 32
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        applicationId = "com.myunidays.library"
         minSdk = 24
         targetSdk = 32
-        versionCode = 1
-        versionName = "1.0"
     }
     buildTypes {
         getByName("release") {

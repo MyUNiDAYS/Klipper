@@ -17,7 +17,7 @@ struct KMMView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Button(action: {
-                let viewModel = CatFactsViewModel()
+                let viewModel = CatFactsViewModel(context: nil)
                 viewModel.makeNetworkRequest(context: nil)
             }, label: {
                 Text("Make network request!")

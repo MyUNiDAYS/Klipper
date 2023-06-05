@@ -1,7 +1,14 @@
 package com.myunidays.library
 
-import com.myunidays.klipper.plugins.sharedpreferences.createSharedPreferencesPlugin
+import android.content.SharedPreferences
+import android.content.Context
 
 actual fun saveData(context: Any?, data: String) {
-    createSharedPreferencesPlugin(context)
+    (context as Context).let { context ->
+        val sharedPref = context.getSharedPreferences("defaults", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("fact", data)
+            apply()
+        }
+    }
 }
