@@ -4,7 +4,7 @@ import cocoapods.FlipperKit.FlipperConnectionProtocol
 import com.myunidays.klipper.FlipperPlugin
 import platform.darwin.NSObject
 
-actual fun createUserDefaultsPlugin(context: Any?) : FKUserDefaultsPlugin = initWithName()
+actual fun createUserDefaultsPlugin(context: Any?, name: String) : FKUserDefaultsPlugin = initWithName(name)
 
 fun initWithName(
     name: String? = null
