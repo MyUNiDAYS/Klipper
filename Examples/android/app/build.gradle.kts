@@ -52,11 +52,18 @@ android {
 dependencies {
     val nav_version = "2.5.3"
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
     implementation("com.facebook.soloader:soloader:0.10.5")
-    implementation("com.facebook.flipper:flipper:0.190.0")
-    implementation("com.facebook.flipper:flipper-network-plugin:0.190.0")
+    implementation("com.facebook.flipper:flipper:0.193.0")
+    implementation("com.facebook.flipper:flipper-network-plugin:0.193.0")
     implementation("com.myunidays:klipper:0.0.1")
     implementation("com.myunidays:Klipper-Example:1.0-SNAPSHOT")
+
+    releaseImplementation("com.facebook.flipper:flipper-noop:0.193.0")
+    debugImplementation("com.facebook.flipper:flipper-network-plugin:0.193.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")

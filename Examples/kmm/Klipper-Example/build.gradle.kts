@@ -43,14 +43,15 @@ kotlin {
                 implementation("io.ktor:ktor-client-logging:$ktor_version")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
+                implementation("com.russhwolf:multiplatform-settings-no-arg:1.0.0")
             }
         }
         val commonTest by getting
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-android:$ktor_version")
-                implementation("com.facebook.flipper:flipper:0.190.0")
-                implementation("com.facebook.flipper:flipper-network-plugin:0.190.0")
+                implementation("io.ktor:ktor-client-okhttp:$ktor_version")
+                implementation("com.facebook.flipper:flipper:0.193.0")
+                implementation("com.facebook.flipper:flipper-network-plugin:0.193.0")
             }
         }
         val iosMain by getting {

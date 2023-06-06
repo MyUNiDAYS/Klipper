@@ -64,7 +64,11 @@ kotlin {
         pod("FlipperKit/FlipperKitUserDefaultsPlugin")
     }
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-core:2.3.0")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
@@ -72,8 +76,9 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.facebook.flipper:flipper:0.190.0")
-                implementation("com.facebook.flipper:flipper-network-plugin:0.190.0")
+                implementation("com.facebook.flipper:flipper:0.193.0")
+                implementation("com.facebook.flipper:flipper-network-plugin:0.193.0")
+                implementation("com.squareup.okhttp3:okhttp:4.11.0")
             }
         }
 //        val androidTest by getting {

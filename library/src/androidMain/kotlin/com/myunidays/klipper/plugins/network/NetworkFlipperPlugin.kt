@@ -5,7 +5,7 @@ import com.myunidays.klipper.FlipperPlugin
 
 actual class NetworkFlipperPlugin : FlipperPlugin {
 
-    private val android = com.facebook.flipper.plugins.network.NetworkFlipperPlugin()
+    internal val android = com.facebook.flipper.plugins.network.NetworkFlipperPlugin()
     override fun getId(): String = android.id
 
     override fun onConnect(connection: FlipperConnection?) {
