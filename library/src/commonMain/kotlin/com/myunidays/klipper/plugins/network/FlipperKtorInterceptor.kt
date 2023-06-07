@@ -12,12 +12,10 @@ fun HttpClientConfig<*>.installFlipperKtorPlugin(networkFlipperPlugin: NetworkFl
 
 internal fun NetworkFlipperPlugin.createKtorPlugin() = createClientPlugin("FlipperKtorPlugin") {
     on(SendingRequest) { request, content ->
-        // would need to push to the network plugin, how do we do this?
         handleSendRequest(request, content)
     }
 
     onResponse { response ->
-        // push to network plugin
         handleOnResponse(response)
     }
 }
