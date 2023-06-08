@@ -14,6 +14,9 @@ internal actual fun NetworkFlipperPlugin.handleSendRequest(
     val info = NetworkReporter.RequestInfo()
     val identifier = UUID.randomUUID().toString()
     info.requestId = identifier
+    info.uri = request.url.toString()
+    info.method = request.method.value
+    info.timeStamp = System.currentTimeMillis()
 //    info.timeStamp = request.re .timestamp
 //    info.headers = request.headers .map {
 //        NetworkReporter.Header(it.key, it.value.joinToString())
@@ -39,7 +42,7 @@ internal actual fun NetworkFlipperPlugin.handleSendRequest(
 //    return info;
 //  }
 
-internal actual fun NetworkFlipperPlugin.handleOnResponse(response: HttpResponse) {
+internal actual suspend fun NetworkFlipperPlugin.handleOnResponse(response: HttpResponse) {
     val info = NetworkReporter.ResponseInfo()
     val identifier = UUID.randomUUID().toString()
     info.requestId = identifier

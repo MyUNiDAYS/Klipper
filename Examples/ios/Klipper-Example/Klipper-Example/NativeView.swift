@@ -26,6 +26,16 @@ struct NativeView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Button(action: {
+                let flipperClient = FlipperClientKt.sharedClient()
+                flipperClient.start()
+                let network = NetworkFlipperPluginKt.doInitWithNetworkAdapter(networkAdapter: SKNetworkAdapterKt.create())
+                flipperClient.addPlugin(plugin: network as! FlipperPlugin)
+                let userDefaults = FKUserDefaultsPluginKt.doInitWithName(name: "klipper_example")
+                flipperClient.addPlugin(plugin: userDefaults as! FlipperPlugin)
+            }, label: {
+                Text("Connect to flipper")
+            })
+            Button(action: {
                 guard let url = URL(string: "https://catfact.ninja/fact") else { fatalError("Missing URL") }
                 let urlRequest = URLRequest(url: url)
                 let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
@@ -47,13 +57,8 @@ struct NativeView: View {
                 Text("Make network request!")
             })
 
-        }.onAppear {
-            let flipperClient = FlipperClientKt.sharedClient()
-            flipperClient.start()
-            let network = NetworkFlipperPluginKt.doInitWithNetworkAdapter(networkAdapter: SKNetworkAdapterKt.create())
-            flipperClient.addPlugin(plugin: network as! FlipperPlugin)
-            let userDefaults = FKUserDefaultsPluginKt.doInitWithName(name: "klipper_example")
-            flipperClient.addPlugin(plugin: userDefaults as! FlipperPlugin)
+        }.onDisappear {
+            FlipperClientKt.sharedClient().stop()
         }
         .padding()
     }

@@ -11,18 +11,25 @@ import library
 
 struct KMMView: View {
     
+    let viewModel = CatFactsViewModel(context: nil)
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Button(action: {
-                let viewModel = CatFactsViewModel(context: nil)
-                viewModel.makeNetworkRequest(context: nil)
+                viewModel.startClient()
+            }, label: {
+                Text("Connect to flipper")
+            })
+            Button(action: {
+                viewModel.makeNetworkRequest()
             }, label: {
                 Text("Make network request!")
             })
-        }.onAppear {
+        }.onDisappear {
+            viewModel.closeClient()
         }
         .padding()
     }

@@ -1,5 +1,6 @@
 package com.myunidays.library
 
+import com.myunidays.klipper.plugins.network.createKtorPlugin
 import platform.Foundation.NSUserDefaults
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -12,6 +13,8 @@ actual fun saveData(context: Any?, data: String) {
     NSUserDefaults.standardUserDefaults.setObject(data, "fact")
 }
 
+actual val networkPlugin = createNetworkFlipperPlugin()
+
 actual val client = HttpClient() {
     install(ContentNegotiation) { json() }
     expectSuccess = true
@@ -20,14 +23,5 @@ actual val client = HttpClient() {
         logger = Logger.DEFAULT
         level = LogLevel.ALL
     }
+    install(networkPlugin.createKtorPlugin())
 }
-actual val networkPlugin = createNetworkFlipperPlugin()
-
-//import com.myunidays.klipper.plugins.network.NetworkFlipperPlugin
-//
-//actual fun initialiseKlipper() {
-////    val flipperClient = com.myunidays.klipper.FlipperClient.getInstance(null)
-////    SKNetworkA
-////    NetworkFlipperPlugin.init()
-////    flipperClient.addPlugin()
-//}
