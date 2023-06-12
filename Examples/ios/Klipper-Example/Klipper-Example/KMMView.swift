@@ -24,7 +24,9 @@ struct KMMView: View {
                 Text("Connect to flipper")
             })
             Button(action: {
-                viewModel.makeNetworkRequest()
+                Task {
+                    try await viewModel.makeNetworkRequest()
+                }
             }, label: {
                 Text("Make network request!")
             })

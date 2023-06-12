@@ -10,6 +10,9 @@ actual class FlipperClient internal constructor(val android: com.facebook.flippe
     actual fun addPlugin(plugin: FlipperPlugin) {
         android.addPlugin(plugin)
     }
+    actual fun removePlugin(plugin: FlipperPlugin) {
+        android.removePlugin(plugin)
+    }
 
     actual companion object {
         actual fun getInstance(context: Any?): FlipperClient =

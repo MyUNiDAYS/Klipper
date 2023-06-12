@@ -7,7 +7,6 @@ import com.myunidays.klipper.plugins.network.NetworkFlipperPlugin
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import kotlinx.coroutines.launch
 
 expect fun saveData(context: Any? = null, data: String)
 
@@ -25,14 +24,14 @@ class CatFactsViewModel(private val context: Any? = null) {
     }
 
     fun closeClient() {
-        FlipperClient.getInstance(context).stop()
+        FlipperClient.getInstance(context).let {
+            it.removePlugin(networkPlugin as FlipperPlugin)
+            it.stop()
+        }
     }
 
-    fun makeNetworkRequest() {
-        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Default).launch {
-            val response = client.get("https://catfact.ninja/fact")
-            saveData(context, response.body())
-        }
-
+    suspend fun makeNetworkRequest() {
+        val response = client.get("https://catfact.ninja/fact")
+        saveData(context, response.body())
     }
 }

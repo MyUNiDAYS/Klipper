@@ -2,42 +2,51 @@ package com.myunidays.klipper.plugins.network
 
 import cocoapods.FlipperKit.SKRequestInfo
 import cocoapods.FlipperKit.SKResponseInfo
-import io.ktor.client.call.*
+import com.myunidays.klipper.toData
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import io.ktor.http.*
 import io.ktor.http.content.*
+import io.ktor.util.*
+import io.ktor.util.date.*
 import platform.Foundation.*
 
-internal actual fun NetworkFlipperPlugin.handleSendRequest(request: HttpRequestBuilder, content: OutgoingContent) {
+internal actual suspend fun NetworkFlipperPlugin.handleSendRequest(request: HttpRequestBuilder, content: OutgoingContent) {
     val info = SKRequestInfo()
-    info.identifier = NSUUID().hash.toLong()
-    info.timestamp = NSDate().timeIntervalSince1970.toULong()
-    println("handleSendRequest time: ${info.timestamp}")
-    info.request = NSURLRequest(NSURL(string = request.url.toString()))
-
-//    val info = SKRequestInfo(
-//        url = request.url.toString(),
-//        method = request.method.value,
-//        headers = request.headers.entries().map { it.key to it.value.joinToString(",") }.toMap(),
-//        body = content.toString()
-//    )
-    // convert to NSURL Request
-
-    println("handleSendRequest: $info")
-//    didObserveRequest(info)
+    val identifier = NSUUID()
+    info.identifier = identifier.hash.toLong()
+    info.timestamp = GMTDate().timestamp.toULong()
+    val infoRequest = NSMutableURLRequest(NSURL(string = request.url.toString()))
+    request.headers.append("requestId", identifier.UUIDString)
+    request.headers.build().toMap().forEach {
+        infoRequest.setValue(
+            it.value.joinToString(","),
+            it.key
+        )
+    }
+    infoRequest.HTTPBody = when (content) {
+        is OutgoingContent.ByteArrayContent ->
+            content.bytes()
+        is OutgoingContent.ReadChannelContent ->
+            content.readFrom().toByteArray()
+        is OutgoingContent.WriteChannelContent -> ByteArray(0)
+        else -> ByteArray(0)
+    }.toData()
+    info.request = infoRequest
+    didObserveRequest(info)
 }
+@OptIn(InternalAPI::class)
 internal actual suspend fun NetworkFlipperPlugin.handleOnResponse(response: HttpResponse) {
-    val info = SKResponseInfo()
-    info.timestamp = NSDate().timeIntervalSince1970.toULong()
-    println("handleOnResponse times: ${info.timestamp}")
-    info.body = response.bodyAsText()
-    println("handleOnResponse: ${info.body}")
-    info.response = NSURLResponse(
+    val identifier = NSUUID(uUIDString = response.call.request.headers["requestId"]!!)
+    val infoResponse = NSHTTPURLResponse(
         uRL = NSURL(string = response.call.request.url.toString()),
-        MIMEType = response.contentType().toString(),
-        expectedContentLength = response.contentLength() ?: 0,
-        textEncodingName = response.charset().toString()
+        statusCode = response.status.value.toLong(),
+        HTTPVersion = null,
+        headerFields = response.headers.toMap().mapValues { it.value.joinToString(",") }
     )
-//    didObserveResponse(info)
+    val info = SKResponseInfo()
+    info.setIdentifier(identifier.hash.toLong())
+    info.setTimestamp(response.responseTime.timestamp.toULong())
+    info.setResponse(infoResponse)
+    info.setBodyFromData(response.content.toByteArray().toData())
+    didObserveResponse(info)
 }

@@ -13,6 +13,10 @@ actual class FlipperClient internal constructor(val ios: cocoapods.FlipperKit.Fl
         ios.addPlugin(FlipperPluginImpl(plugin))
     }
 
+    actual fun removePlugin(plugin: FlipperPlugin) {
+        ios.removePlugin(FlipperPluginImpl(plugin))
+    }
+
     actual companion object {
         actual fun getInstance(context: Any?): FlipperClient =
             FlipperClient(cocoapods.FlipperKit.FlipperClient.sharedClient()!!)

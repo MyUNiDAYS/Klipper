@@ -4,16 +4,23 @@ import cocoapods.FlipperKit.FlipperConnectionProtocol
 import cocoapods.FlipperKit.SKRequestInfo
 import cocoapods.FlipperKit.SKResponseInfo
 import com.myunidays.klipper.FlipperPlugin
+import io.ktor.http.*
+import platform.Foundation.NSURL
+import platform.Foundation.NSURLResponse
+import platform.Foundation.NSUUID
 import platform.darwin.NSObject
+import platform.Foundation.*
 
 fun initWithNetworkAdapter(
-    networkAdapter: SKNetworkAdapter
+    networkAdapter: SKNetworkAdapter?
 ): NetworkFlipperPlugin =
     NetworkFlipperPlugin(
-        cocoapods.FlipperKit.FlipperKitNetworkPlugin(networkAdapter = networkAdapter.ios)
+        cocoapods.FlipperKit.FlipperKitNetworkPlugin(networkAdapter = networkAdapter?.ios)
     )
 
-actual class NetworkFlipperPlugin internal constructor(val ios: cocoapods.FlipperKit.FlipperKitNetworkPlugin) : FlipperPlugin, NetworkReporter, NSObject() {
+actual class NetworkFlipperPlugin internal constructor(
+    val ios: cocoapods.FlipperKit.FlipperKitNetworkPlugin = cocoapods.FlipperKit.FlipperKitNetworkPlugin()
+) : FlipperPlugin, NetworkReporter, NSObject() {
     override fun didConnect(connection: FlipperConnectionProtocol?) {
         ios.didConnect(connection)
     }
@@ -24,10 +31,6 @@ actual class NetworkFlipperPlugin internal constructor(val ios: cocoapods.Flippe
 
     override fun identifier(): String? = ios.identifier()
 
-    companion object {
-        fun init(networkAdapter: SKNetworkAdapter) = initWithNetworkAdapter(networkAdapter)
-    }
-
     override fun didObserveRequest(request: SKRequestInfo?) {
         ios.didObserveRequest(request)
     }
@@ -35,8 +38,13 @@ actual class NetworkFlipperPlugin internal constructor(val ios: cocoapods.Flippe
     override fun didObserveResponse(response: SKResponseInfo?) {
         ios.didObserveResponse(response)
     }
+
+    companion object {
+        fun init(networkAdapter: SKNetworkAdapter? = null) = initWithNetworkAdapter(networkAdapter)
+    }
 }
 
-actual fun createNetworkFlipperPlugin() = NetworkFlipperPlugin.init(SKNetworkAdapter())
+//actual fun createNetworkFlipperPlugin() = NetworkFlipperPlugin.init(SKNetworkAdapter())
+actual fun createNetworkFlipperPlugin() = NetworkFlipperPlugin.init()
 
 actual typealias NetworkReporter = cocoapods.FlipperKit.SKNetworkReporterDelegateProtocol

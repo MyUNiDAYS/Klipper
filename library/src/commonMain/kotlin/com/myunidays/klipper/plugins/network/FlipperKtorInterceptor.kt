@@ -15,5 +15,5 @@ fun NetworkFlipperPlugin.createKtorPlugin() = createClientPlugin("FlipperKtorPlu
     }
 }
 
-internal expect fun NetworkFlipperPlugin.handleSendRequest(request: HttpRequestBuilder, content: OutgoingContent)
+internal expect suspend fun NetworkFlipperPlugin.handleSendRequest(request: HttpRequestBuilder, content: OutgoingContent)
 internal expect suspend fun NetworkFlipperPlugin.handleOnResponse(response: HttpResponse)
