@@ -38,9 +38,28 @@ Where 0.0.1 is the release number, you will also need to change the checksum, xc
 
 ### KMM
 
+```kotlin
+    val flipperClient = FlipperClient.getInstance(context)
+    flipperClient.start()
+```
+
 ### Android
 
+```kotlin
+    val client = AndroidFlipperClient.getInstance(context)
+    client.start()
+```
+
 ### iOS
+
+```swift
+    let flipperClient = FlipperClientKt.sharedClient()
+    flipperClient.start()
+```
+
+## Future
+
+We would like to write our own implementation of the message bus, this way we could then inject the url of the flipper host.
 
 ## Contributing
 
