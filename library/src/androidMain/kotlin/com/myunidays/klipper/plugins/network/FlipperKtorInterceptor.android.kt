@@ -1,13 +1,15 @@
 package com.myunidays.klipper.plugins.network
 
 import com.facebook.flipper.plugins.network.NetworkReporter
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.http.content.*
-import io.ktor.util.*
-import io.ktor.util.date.*
-import java.util.*
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.Headers
+import io.ktor.http.content.OutgoingContent
+import io.ktor.util.InternalAPI
+import io.ktor.util.date.GMTDate
+import io.ktor.util.toByteArray
+import io.ktor.util.toMap
+import java.util.UUID
 
 internal actual suspend fun NetworkFlipperPlugin.handleSendRequest(
     request: HttpRequestBuilder,
