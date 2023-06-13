@@ -1,7 +1,7 @@
 package com.myunidays.klipper.plugins.network
 
-import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.client.plugins.api.SendingRequest
+import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.content.OutgoingContent

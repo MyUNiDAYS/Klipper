@@ -4,12 +4,7 @@ import cocoapods.FlipperKit.FlipperConnectionProtocol
 import cocoapods.FlipperKit.SKRequestInfo
 import cocoapods.FlipperKit.SKResponseInfo
 import com.myunidays.klipper.FlipperPlugin
-import io.ktor.http.*
-import platform.Foundation.NSURL
-import platform.Foundation.NSURLResponse
-import platform.Foundation.NSUUID
 import platform.darwin.NSObject
-import platform.Foundation.*
 
 fun initWithNetworkAdapter(
     networkAdapter: SKNetworkAdapter?

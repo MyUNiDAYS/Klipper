@@ -8,6 +8,8 @@ import platform.Foundation.create
 
 @OptIn(ExperimentalForeignApi::class)
 fun ByteArray.toData(): NSData = memScoped {
-    NSData.create(bytes = allocArrayOf(this@toData),
-        length = this@toData.size.toULong())
+    NSData.create(
+        bytes = allocArrayOf(this@toData),
+        length = this@toData.size.toULong()
+    )
 }
