@@ -3,6 +3,7 @@ package com.myunidays.klipper.plugins.network
 import com.facebook.flipper.plugins.network.NetworkReporter
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.util.*
 import io.ktor.util.date.*
@@ -12,38 +13,34 @@ internal actual suspend fun NetworkFlipperPlugin.handleSendRequest(
     request: HttpRequestBuilder,
     content: OutgoingContent
 ) {
-    val info = NetworkReporter.RequestInfo()
-    val identifier = UUID.randomUUID().toString()
-    info.requestId = identifier
-    info.uri = request.url.toString()
-    info.method = request.method.value
-    info.timeStamp = GMTDate().timestamp
-    request.headers.append("requestId", identifier)
-    info.headers = request.headers.build().toMap().map {
-        NetworkReporter.Header(it.key, it.value.joinToString())
+    NetworkReporter.RequestInfo().apply {
+        val identifier = UUID.randomUUID().toString()
+        requestId = identifier
+        uri = request.url.toString()
+        method = request.method.value
+        timeStamp = GMTDate().timestamp
+        request.headers.append(NETWORK_REQUEST_KEY, identifier)
+        headers = request.headers.build().headerList()
+        body = content.byteArray()
+    }.also {
+        reportRequest(it)
     }
-    info.body = when (request.body) {
-        is OutgoingContent.ByteArrayContent ->
-            (request.body as OutgoingContent.ByteArrayContent).bytes()
-        is OutgoingContent.ReadChannelContent ->
-            (request.body as OutgoingContent.ReadChannelContent).readFrom().toByteArray()
-        is OutgoingContent.WriteChannelContent -> ByteArray(0)
-        else -> ByteArray(0)
-    }
-    reportRequest(info)
 }
 
 @OptIn(InternalAPI::class)
 internal actual suspend fun NetworkFlipperPlugin.handleOnResponse(response: HttpResponse) {
-    val info = NetworkReporter.ResponseInfo()
-    val identifier = response.call.request.headers["requestId"]!!
-    info.requestId = identifier
-    info.timeStamp = response.responseTime.timestamp
-    info.statusCode = response.status.value
-    info.headers = response.headers.toMap().map {
-        NetworkReporter.Header(it.key, it.value.joinToString())
+    NetworkReporter.ResponseInfo().apply {
+        val identifier = response.call.request.headers[NETWORK_REQUEST_KEY]!!
+        requestId = identifier
+        timeStamp = response.responseTime.timestamp
+        statusCode = response.status.value
+        headers = response.headers.headerList()
+        response.content.awaitContent()
+        body = response.content.toByteArray()
+    }.also {
+        reportResponse(it)
     }
-    response.content.awaitContent()
-    info.body = response.content.toByteArray()
-    reportResponse(info)
 }
+
+private fun Headers.headerList(): List<NetworkReporter.Header> = toMap()
+    .map { NetworkReporter.Header(it.key, it.value.joinToString()) }

@@ -40,7 +40,7 @@ class NativeViewModel(private val context: Context) : ViewModel() {
         client.start()
     }
     fun makeNetworkRequest() {
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val networkClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(FlipperOkhttpInterceptor(networkFlipperPlugin))
                 .build()

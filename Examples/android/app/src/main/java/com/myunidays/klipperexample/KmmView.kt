@@ -14,15 +14,25 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.myunidays.library.CatFactsViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class KMMViewModel(context: Context) : ViewModel() {
-    val viewModel = CatFactsViewModel(context = context)
+    private val viewModel = CatFactsViewModel(context = context)
 
     init {
-        viewModel.closeClient()
+        runCatching {
+            viewModel.closeClient()
+        }
     }
+
     fun startClient() = viewModel.startClient()
-    fun makeNetworkRequest() = viewModel.makeNetworkRequest()
+    fun makeNetworkRequest() {
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.makeNetworkRequest()
+        }
+    }
 }
 
 @Composable

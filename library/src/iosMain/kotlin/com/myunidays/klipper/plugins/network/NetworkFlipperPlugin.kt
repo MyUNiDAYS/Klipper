@@ -44,7 +44,8 @@ actual class NetworkFlipperPlugin internal constructor(
     }
 }
 
-//actual fun createNetworkFlipperPlugin() = NetworkFlipperPlugin.init(SKNetworkAdapter())
+fun createNetworkFlipperPlugin(networkAdapter: SKNetworkAdapter? = null) =
+    NetworkFlipperPlugin.init(networkAdapter)
 actual fun createNetworkFlipperPlugin() = NetworkFlipperPlugin.init()
 
 actual typealias NetworkReporter = cocoapods.FlipperKit.SKNetworkReporterDelegateProtocol

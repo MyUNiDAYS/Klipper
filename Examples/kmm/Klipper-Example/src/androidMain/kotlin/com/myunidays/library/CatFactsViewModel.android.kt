@@ -29,8 +29,5 @@ actual val client = HttpClient(OkHttp) {
         level = LogLevel.ALL
     }
     install(networkPlugin.createKtorPlugin())
-//    engine {
-//        addInterceptor(okhttpInterceptor)
-//    }
 }
 

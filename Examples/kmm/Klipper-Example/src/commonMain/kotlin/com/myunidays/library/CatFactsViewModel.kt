@@ -33,5 +33,6 @@ class CatFactsViewModel(private val context: Any? = null) {
     suspend fun makeNetworkRequest() {
         val response = client.get("https://catfact.ninja/fact")
         saveData(context, response.body())
+        client.get("https://picsum.photos/200/300")
     }
 }

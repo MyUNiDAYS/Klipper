@@ -11,42 +11,41 @@ import io.ktor.util.date.*
 import platform.Foundation.*
 
 internal actual suspend fun NetworkFlipperPlugin.handleSendRequest(request: HttpRequestBuilder, content: OutgoingContent) {
-    val info = SKRequestInfo()
-    val identifier = NSUUID()
-    info.identifier = identifier.hash.toLong()
-    info.timestamp = GMTDate().timestamp.toULong()
-    val infoRequest = NSMutableURLRequest(NSURL(string = request.url.toString()))
-    request.headers.append("requestId", identifier.UUIDString)
-    request.headers.build().toMap().forEach {
-        infoRequest.setValue(
-            it.value.joinToString(","),
-            it.key
-        )
+    SKRequestInfo().apply {
+        val identifier = NSUUID()
+        setIdentifier(identifier.hash.toLong())
+        setTimestamp(GMTDate().timestamp.toULong())
+        NSMutableURLRequest(NSURL(string = request.url.toString())).apply {
+            request.headers.append(NETWORK_REQUEST_KEY, identifier.UUIDString)
+            request.headers.build().toMap().forEach {
+                setValue(
+                    it.value.joinToString(","),
+                    it.key
+                )
+            }
+            HTTPBody = content.byteArray().toData()
+        }.also {
+            setRequest(it)
+        }
+    }.also {
+        didObserveRequest(it)
     }
-    infoRequest.HTTPBody = when (content) {
-        is OutgoingContent.ByteArrayContent ->
-            content.bytes()
-        is OutgoingContent.ReadChannelContent ->
-            content.readFrom().toByteArray()
-        is OutgoingContent.WriteChannelContent -> ByteArray(0)
-        else -> ByteArray(0)
-    }.toData()
-    info.request = infoRequest
-    didObserveRequest(info)
 }
 @OptIn(InternalAPI::class)
 internal actual suspend fun NetworkFlipperPlugin.handleOnResponse(response: HttpResponse) {
-    val identifier = NSUUID(uUIDString = response.call.request.headers["requestId"]!!)
-    val infoResponse = NSHTTPURLResponse(
-        uRL = NSURL(string = response.call.request.url.toString()),
-        statusCode = response.status.value.toLong(),
-        HTTPVersion = null,
-        headerFields = response.headers.toMap().mapValues { it.value.joinToString(",") }
-    )
-    val info = SKResponseInfo()
-    info.setIdentifier(identifier.hash.toLong())
-    info.setTimestamp(response.responseTime.timestamp.toULong())
-    info.setResponse(infoResponse)
-    info.setBodyFromData(response.content.toByteArray().toData())
-    didObserveResponse(info)
+    SKResponseInfo().apply {
+        val identifier = NSUUID(uUIDString = response.call.request.headers[NETWORK_REQUEST_KEY]!!)
+        val infoResponse = NSHTTPURLResponse(
+            uRL = NSURL(string = response.call.request.url.toString()),
+            statusCode = response.status.value.toLong(),
+            HTTPVersion = null,
+            headerFields = response.headers.toMap().mapValues { it.value.joinToString(",") }
+        )
+        setIdentifier(identifier.hash.toLong())
+        setTimestamp(response.responseTime.timestamp.toULong())
+        setResponse(infoResponse)
+        setBodyFromData(response.content.toByteArray().toData())
+    }.also {
+        didObserveResponse(it)
+    }
 }
