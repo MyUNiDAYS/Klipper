@@ -1,10 +1,11 @@
 package com.myunidays.klipper.plugins.network
 
-import io.ktor.client.plugins.api.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.content.*
-import io.ktor.util.*
+import io.ktor.client.plugins.api.createClientPlugin
+import io.ktor.client.plugins.api.SendingRequest
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.content.OutgoingContent
+import io.ktor.util.toByteArray
 
 fun NetworkFlipperPlugin.createKtorPlugin() = createClientPlugin("FlipperKtorPlugin") {
     on(SendingRequest) { request, content ->
@@ -16,7 +17,10 @@ fun NetworkFlipperPlugin.createKtorPlugin() = createClientPlugin("FlipperKtorPlu
     }
 }
 
-internal expect suspend fun NetworkFlipperPlugin.handleSendRequest(request: HttpRequestBuilder, content: OutgoingContent)
+internal expect suspend fun NetworkFlipperPlugin.handleSendRequest(
+    request: HttpRequestBuilder,
+    content: OutgoingContent
+)
 internal expect suspend fun NetworkFlipperPlugin.handleOnResponse(response: HttpResponse)
 
 const val NETWORK_REQUEST_KEY = "ktor-request-id"
