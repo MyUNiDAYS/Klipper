@@ -57,6 +57,46 @@ Where 0.0.1 is the release number, you will also need to change the checksum, xc
     flipperClient.start()
 ```
 
+### Plugins
+
+Out of the box we support the following plugins:
+
+- Flipper Network Plugin
+- Flipper UserDefaults Plugin
+
+To use these plugins you will need to add them to your project like this:
+
+#### KMM
+
+```kotlin
+    val flipperClient = FlipperClient.getInstance(context)
+    flipperClient.addPlugin(NetworkFlipperPlugin())
+    flipperClient.addPlugin(UserDefaultsFlipperPlugin())
+    flipperClient.start()
+```
+
+#### Android
+
+```kotlin
+    val client = AndroidFlipperClient.getInstance(context)
+    client.addPlugin(NetworkFlipperPlugin())
+    client.addPlugin(UserDefaultsFlipperPlugin())
+    client.start()
+```
+
+#### iOS
+
+```swift
+    let flipperClient = FlipperClientKt.sharedClient()
+    flipperClient.addPlugin(NetworkFlipperPluginKt.networkFlipperPlugin())
+    flipperClient.addPlugin(UserDefaultsFlipperPluginKt.userDefaultsFlipperPlugin())
+    flipperClient.start()
+```
+
+## Examples
+
+Please find examples in the [examples](./examples) folder.
+
 ## Future
 
 We would like to write our own implementation of the message bus, this way we could then inject the url of the flipper host.
