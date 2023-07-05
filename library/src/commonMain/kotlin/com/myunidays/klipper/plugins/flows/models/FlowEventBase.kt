@@ -1,6 +1,5 @@
 package com.myunidays.klipper.plugins.flows.models
 
-
 interface FlowEventBase {
     val id: String
     val name: String
