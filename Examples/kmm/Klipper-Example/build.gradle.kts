@@ -1,8 +1,8 @@
 plugins {
-    kotlin("multiplatform") version "1.9.0-Beta-145"
+    kotlin("multiplatform") version "1.9.0-RC"
     id("com.android.library")
     id("io.github.luca992.multiplatform-swiftpackage") version "2.1.1"
-    kotlin("native.cocoapods") version "1.9.0-Beta-145"
+    kotlin("native.cocoapods") version "1.9.0-RC"
     `maven-publish`
 }
 

@@ -20,7 +20,7 @@ import java.util.UUID
 
 actual class FlowPlugin : FlipperPlugin {
     private var connection: FlipperConnection? = null
-    override fun getId(): String = flowPluginId
+    override fun getId(): String = FLOWPLUGINID
 
     override fun onConnect(connection: FlipperConnection?) {
         this.connection = connection
@@ -34,7 +34,7 @@ actual class FlowPlugin : FlipperPlugin {
 
     actual fun sendData(flowData: FlowEventBase) {
         connection?.send(
-            flowPluginEventMethod,
+            FLOWPLUGINEVENTMETHOD,
             FlipperObject(JSONObject(flowData.toMap()))
         )
     }

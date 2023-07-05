@@ -28,10 +28,10 @@ actual class FlowPlugin : FlipperPlugin, NSObject() {
         connection = null
     }
 
-    override fun identifier(): String = flowPluginId
+    override fun identifier(): String = FLOWPLUGINID
     actual fun sendData(flowData: FlowEventBase) {
         connection?.send(
-            flowPluginEventMethod,
+            FLOWPLUGINEVENTMETHOD,
             withParams = flowData.toMap()
         )
     }

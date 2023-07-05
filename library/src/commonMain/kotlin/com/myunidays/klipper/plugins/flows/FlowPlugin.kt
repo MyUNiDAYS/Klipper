@@ -3,8 +3,8 @@ package com.myunidays.klipper.plugins.flows
 import com.myunidays.klipper.plugins.flows.models.FlowEventBase
 import kotlinx.coroutines.flow.Flow
 
-internal const val flowPluginId = "Kotlin-Flows"
-internal const val flowPluginEventMethod = "newEvent"
+internal const val FLOWPLUGINID = "Kotlin-Flows"
+internal const val FLOWPLUGINEVENTMETHOD = "newEvent"
 
 // An Issue with KMM and ios when it comes to NSObject, so there is duplication in the addFlow function
 expect class FlowPlugin() {
