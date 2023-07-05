@@ -56,7 +56,7 @@ dependencies {
     implementation("com.facebook.soloader:soloader:0.10.5")
     implementation("com.facebook.flipper:flipper:0.193.0")
     implementation("com.facebook.flipper:flipper-network-plugin:0.193.0")
-    implementation("com.myunidays:klipper:0.0.1")
+    implementation("com.myunidays:klipper:0.0.3")
     implementation("com.myunidays:Klipper-Example:1.0-SNAPSHOT")
 
     releaseImplementation("com.facebook.flipper:flipper-noop:0.193.0")

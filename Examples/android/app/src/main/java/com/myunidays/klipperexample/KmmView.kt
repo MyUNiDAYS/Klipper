@@ -23,7 +23,7 @@ class KMMViewModel(context: Context) : ViewModel() {
 
     init {
         runCatching {
-            viewModel.closeClient()
+//            viewModel.closeClient()
         }
     }
 
