@@ -4,13 +4,15 @@ import android.content.Context
 import com.facebook.flipper.core.FlipperConnection
 import com.myunidays.klipper.FlipperPlugin
 
-actual fun createSharedPreferencesPlugin(context: Any?, name: String): SharedPreferencesFlipperPlugin = SharedPreferencesFlipperPlugin(context as Context, name)
+actual fun createSharedPreferencesPlugin(context: Any?, name: String): SharedPreferencesFlipperPlugin =
+    SharedPreferencesFlipperPlugin(context as Context, name)
 
 actual class SharedPreferencesFlipperPlugin(
     context: Context,
     name: String
 ) : FlipperPlugin {
-    private val android = com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin(context, name)
+    private val android =
+        com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin(context, name)
     override fun getId(): String = android.id
 
     override fun onConnect(connection: FlipperConnection?) {

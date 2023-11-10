@@ -17,7 +17,10 @@ import platform.Foundation.NSURL
 import platform.Foundation.NSUUID
 import platform.Foundation.setValue
 
-internal actual suspend fun NetworkFlipperPlugin.handleSendRequest(request: HttpRequestBuilder, content: OutgoingContent) {
+internal actual suspend fun NetworkFlipperPlugin.handleSendRequest(
+    request: HttpRequestBuilder,
+    content: OutgoingContent
+) {
     SKRequestInfo().apply {
         val identifier = NSUUID()
         setIdentifier(identifier.hash.toLong())

@@ -1,4 +1,4 @@
-
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 val MODULE_PACKAGE_NAME: String by project
 val MODULE_NAME: String by project
@@ -8,12 +8,16 @@ val PUBLISH_NAME: String by project
 group = MODULE_PACKAGE_NAME
 version = MODULE_VERSION_NUMBER
 
+kotlin {
+    jvmToolchain(libs.versions.jvm.get().toInt())
+}
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("native.cocoapods")
     id("org.jlleitschuh.gradle.ktlint")
     id("io.gitlab.arturbosch.detekt")
+    kotlin("native.cocoapods")
     id("io.github.luca992.multiplatform-swiftpackage") version "2.1.1"
     signing
     `maven-publish`
@@ -26,27 +30,32 @@ ktlint {
 detekt {
     config = files("./custom-detekt-config.yml")
     buildUponDefaultConfig = true // preconfigure defaults
-    input = files("src/commonMain/kotlin")
+    source.setFrom(
+        "src/commonMain/kotlin",
+        "src/androidMain/kotlin",
+        "src/iosMain/kotlin"
+    )
     autoCorrect = false
-
-    reports {
-        html.enabled = true
-        xml.enabled = true
-        txt.enabled = true
-        sarif.enabled = true
-    }
 }
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
-    // Target version of the generated JVM bytecode. It is used for type resolution.
-    jvmTarget = "1.8"
+    jvmTarget = libs.versions.jvm.get()
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        txt.required.set(true)
+        sarif.required.set(true)
+    }
 }
 
 kotlin {
-    android {
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    targetHierarchy.default()
+    androidTarget {
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
     }
+
     ios()
     iosSimulatorArm64()
     cocoapods {
@@ -63,6 +72,7 @@ kotlin {
         pod("FlipperKit/SKIOSNetworkPlugin")
         pod("FlipperKit/FlipperKitUserDefaultsPlugin")
     }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -97,16 +107,21 @@ kotlin {
 }
 
 android {
-    compileSdk = 31
-    buildToolsVersion = "30.0.3"
+    compileSdk = androidVersions.versions.compileSdk.get().toInt()
+    buildToolsVersion = androidVersions.versions.buildToolsVersion.get()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    namespace = MODULE_PACKAGE_NAME
     defaultConfig {
-        minSdk = 23
-        targetSdk = 31
+        minSdk = androidVersions.versions.minSdk.get().toInt()
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
     }
 }
 
@@ -194,4 +209,9 @@ multiplatformSwiftPackage {
     targetPlatforms {
         iOS { v("16.4") }
     }
+}
+
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    val signingTasks = tasks.withType<Sign>()
+    mustRunAfter(signingTasks)
 }
